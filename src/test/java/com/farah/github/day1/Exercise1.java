@@ -3,6 +3,8 @@ package com.farah.github.day1;
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import utils.Hooks;
 
@@ -25,25 +27,25 @@ public class Exercise1 extends Hooks{
 		
 		
 		WebElement password = driver.findElement(By.name("password")); 
+		password.sendKeys("admin123");
 		
 		Thread.sleep(3000);
-		
-		
-		password.sendKeys("admin123");
 		
 		WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[3]/button"));
 		loginButton.click();
 		
-		WebElement headerElement = driver.findElement(By.tagName("h1"));
-	    String headerText = headerElement.getText();
-	    
-	    if(headerText.equals("Dashboard")){
-	    	System.out.println("Header text is verified successfully");
-	    }else {
-	    	System.out.println("Test failed Expected 'Dashboard' but got '" + headerText);
-	    }
-	    
-		Thread.sleep(3000);
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);		
+		WebElement header =wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("oxd-text--h6")));
+		String headerText = header.getText();
+		System.out.println(headerText);
+		
+		if(headerText.equals("Dashboard")) {
+			System.out.println("Login successful! Header verified :" + header);
+		}else {
+			System.out.println("Login faild or header not verified:" + header );
+		}
+
 		
 		
 		
